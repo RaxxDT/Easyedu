@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructor Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1565c0;
+            --primary-green: #2e7d32;
+            --light-bg: #f8f9fa;
+            --accent-yellow: #fdd835;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-blue), #1976d2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-pills .nav-link {
+            color: #6c757d;
+            margin-right: 10px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+            color: white;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+            color: white;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+        }
+        
+        .btn-outline-primary {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            border-radius: 25px;
+        }
+        
+        .badge {
+            border-radius: 15px;
+        }
+        
+        .submission-item, .course-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary-blue);
+            transition: all 0.3s ease;
+        }
+        
+        .submission-item:hover, .course-item:hover {
+            background: #f8f9fa;
+            border-left-color: var(--primary-green);
+        }
+        
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 0.2rem rgba(21, 101, 192, 0.25);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fas fa-graduation-cap me-2"></i>
+                Instructor Dashboard
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text text-white">
+                    <i class="fas fa-user-circle me-2"></i>
+                    Dr. Sarah Johnson
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-pills justify-content-center mb-4" id="mainTabs">
+            <li class="nav-item">
+                <button class="nav-link active" onclick="showTab('overview')">
+                    <i class="fas fa-tachometer-alt me-2"></i>Overview
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" onclick="showTab('courses')">
+                    <i class="fas fa-book me-2"></i>Courses
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" onclick="showTab('submissions')">
+                    <i class="fas fa-file-alt me-2"></i>Submissions
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" onclick="showTab('announcements')">
+                    <i class="fas fa-bullhorn me-2"></i>Announcements
+                </button>
+            </li>
+        </ul>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card stats-card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-book fa-2x mb-2"></i>
+                            <h3 class="mb-0">8</h3>
+                            <p class="mb-0">Active Courses</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stats-card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-users fa-2x mb-2"></i>
+                            <h3 class="mb-0">342</h3>
+                            <p class="mb-0">Total Students</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stats-card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-alt fa-2x mb-2"></i>
+                            <h3 class="mb-0">23</h3>
+                            <p class="mb-0">Pending Reviews</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stats-card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-bullhorn fa-2x mb-2"></i>
+                            <h3 class="mb-0">12</h3>
+                            <p class="mb-0">Announcements</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-transparent">
+                            <h5 class="mb-0">
+                                <i class="fas fa-clock me-2"></i>Recent Activity
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item border-0 px-0">
+                                    <small class="text-muted">2 hours ago</small>
+                                    <p class="mb-0">New submission in CS101</p>
+                                </div>
+                                <div class="list-group-item border-0 px-0">
+                                    <small class="text-muted">5 hours ago</small>
+                                    <p class="mb-0">Assignment deadline reminder sent</p>
+                                </div>
+                                <div class="list-group-item border-0 px-0">
+                                    <small class="text-muted">1 day ago</small>
+                                    <p class="mb-0">3 new students enrolled in CS102</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-transparent">
+                            <h5 class="mb-0">
+                                <i class="fas fa-exclamation-triangle me-2"></i>Quick Actions
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <button class="btn btn-primary w-100 mb-2" onclick="showTab('courses')">
+                                <i class="fas fa-plus me-2"></i>Create New Course
+                            </button>
+                            <button class="btn btn-outline-primary w-100 mb-2" onclick="showTab('announcements')">
+                                <i class="fas fa-bullhorn me-2"></i>Send Announcement
+                            </button>
+                            <button class="btn btn-outline-primary w-100" onclick="showTab('submissions')">
+                                <i class="fas fa-file-alt me-2"></i>Review Submissions
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Courses Tab -->
+        <div id="courses" class="tab-content">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3>Course Management</h3>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal">
+                    <i class="fas fa-plus me-2"></i>Create Course
+                </button>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="course-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="mb-1">Computer Science 101</h5>
+                                <p class="text-muted mb-2">Introduction to Programming</p>
+                                <span class="badge bg-success me-2">45 Students</span>
+                                <span class="badge bg-info">Active</span>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="dropdown">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-users me-2"></i>View Students</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-chart-bar me-2"></i>Analytics</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="course-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="mb-1">Computer Science 102</h5>
+                                <p class="text-muted mb-2">Data Structures & Algorithms</p>
+                                <span class="badge bg-success me-2">38 Students</span>
+                                <span class="badge bg-info">Active</span>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="dropdown">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-users me-2"></i>View Students</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-chart-bar me-2"></i>Analytics</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submissions Tab -->
+        <div id="submissions" class="tab-content">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3>Student Submissions</h3>
+                <div>
+                    <select class="form-select d-inline-block w-auto me-2" id="filterCourse">
+                        <option value="">All Courses</option>
+                        <option value="cs101">CS 101</option>
+                        <option value="cs102">CS 102</option>
+                    </select>
+                    <select class="form-select d-inline-block w-auto" id="filterStatus">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="graded">Graded</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="submissionsList">
+                <div class="submission-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center mb-2">
+                                <h6 class="mb-0 me-3">Assignment 1 - Hello World</h6>
+                                <span class="badge bg-warning">Pending Review</span>
+                            </div>
+                            <p class="text-muted mb-1">
+                                <i class="fas fa-user me-2"></i>John Smith
+                                <i class="fas fa-book ms-3 me-2"></i>CS 101
+                                <i class="fas fa-clock ms-3 me-2"></i>Submitted 2 hours ago
+                            </p>
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-primary btn-sm me-2" onclick="reviewSubmission('John Smith', 'Assignment 1')">
+                                <i class="fas fa-eye me-1"></i>Review
+                            </button>
+                            <button class="btn btn-primary btn-sm" onclick="gradeSubmission('John Smith', 'Assignment 1')">
+                                <i class="fas fa-star me-1"></i>Grade
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submission-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center mb-2">
+                                <h6 class="mb-0 me-3">Project 1 - Calculator App</h6>
+                                <span class="badge bg-success">Graded</span>
+                            </div>
+                            <p class="text-muted mb-1">
+                                <i class="fas fa-user me-2"></i>Jane Doe
+                                <i class="fas fa-book ms-3 me-2"></i>CS 102
+                                <i class="fas fa-clock ms-3 me-2"></i>Graded 1 day ago
+                                <i class="fas fa-star ms-3 me-2"></i>Grade: A-
+                            </p>
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-eye me-1"></i>View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Announcements Tab -->
+        <div id="announcements" class="tab-content">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3>Announcements</h3>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#announcementModal">
+                    <i class="fas fa-plus me-2"></i>Create Announcement
+                </button>
+            </div>
+
+            <div id="announcementsList">
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">Assignment Deadline Reminder</h6>
+                            <small class="text-muted">CS 101 • Posted 2 days ago</small>
+                        </div>
+                        <span class="badge bg-info">Active</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-0">Don't forget that Assignment 2 is due this Friday at 11:59 PM. Please make sure to submit your work on time.</p>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">Office Hours Update</h6>
+                            <small class="text-muted">All Courses • Posted 1 week ago</small>
+                        </div>
+                        <span class="badge bg-secondary">Archived</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-0">My office hours have been moved to Tuesdays and Thursdays from 2-4 PM. Please update your calendars accordingly.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Course Modal -->
+    <div class="modal fade" id="courseModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Course</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="courseForm">
+                        <div class="mb-3">
+                            <label for="courseName" class="form-label">Course Name</label>
+                            <input type="text" class="form-control" id="courseName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="courseCode" class="form-label">Course Code</label>
+                            <input type="text" class="form-control" id="courseCode" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="courseDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="courseDescription" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="courseSemester" class="form-label">Semester</label>
+                            <select class="form-select" id="courseSemester" required>
+                                <option value="">Select Semester</option>
+                                <option value="fall2024">Fall 2024</option>
+                                <option value="spring2025">Spring 2025</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="createCourse()">Create Course</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Announcement Modal -->
+    <div class="modal fade" id="announcementModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Announcement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="announcementForm">
+                        <div class="mb-3">
+                            <label for="announcementTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="announcementTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="announcementCourse" class="form-label">Course</label>
+                            <select class="form-select" id="announcementCourse" required>
+                                <option value="">Select Course</option>
+                                <option value="cs101">CS 101</option>
+                                <option value="cs102">CS 102</option>
+                                <option value="all">All Courses</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="announcementContent" class="form-label">Content</label>
+                            <textarea class="form-control" id="announcementContent" rows="4" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="announcementPriority" class="form-label">Priority</label>
+                            <select class="form-select" id="announcementPriority">
+                                <option value="normal">Normal</option>
+                                <option value="high">High</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="createAnnouncement()">Send Announcement</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Tab Management
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all nav links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked nav link
+            event.target.classList.add('active');
+        }
+
+        // Course Management
+        function createCourse() {
+            const form = document.getElementById('courseForm');
+            const formData = new FormData(form);
+            
+            const courseName = document.getElementById('courseName').value;
+            const courseCode = document.getElementById('courseCode').value;
+            const courseDescription = document.getElementById('courseDescription').value;
+            const courseSemester = document.getElementById('courseSemester').value;
+            
+            if (!courseName || !courseCode || !courseSemester) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Add new course to the list
+            addCourseToList(courseName, courseCode, courseDescription);
+            
+            // Reset form and close modal
+            form.reset();
+            const modal = bootstrap.Modal.getInstance(document.getElementById('courseModal'));
+            modal.hide();
+            
+            alert('Course created successfully!');
+        }
+
+        function addCourseToList(name, code, description) {
+            const coursesContainer = document.querySelector('#courses .row');
+            const newCourse = document.createElement('div');
+            newCourse.className = 'col-md-6';
+            newCourse.innerHTML = `
+                <div class="course-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="mb-1">${name}</h5>
+                            <p class="text-muted mb-2">${description}</p>
+                            <span class="badge bg-success me-2">0 Students</span>
+                            <span class="badge bg-info">Active</span>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-users me-2"></i>View Students</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-chart-bar me-2"></i>Analytics</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+            coursesContainer.appendChild(newCourse);
+        }
+
+        // Submission Management
+        function reviewSubmission(student, assignment) {
+            alert(`Reviewing submission from ${student} for ${assignment}`);
+        }
+
+        function gradeSubmission(student, assignment) {
+            const grade = prompt(`Enter grade for ${student}'s ${assignment}:`);
+            if (grade) {
+                alert(`Grade ${grade} assigned to ${student} for ${assignment}`);
+                // Update submission status in the UI
+                updateSubmissionStatus(student, assignment, grade);
+            }
+        }
+
+        function updateSubmissionStatus(student, assignment, grade) {
+            // Find and update the submission item
+            const submissions = document.querySelectorAll('.submission-item');
+            submissions.forEach(item => {
+                const title = item.querySelector('h6').textContent;
+                const studentName = item.querySelector('.text-muted').textContent;
+                
+                if (title.includes(assignment) && studentName.includes(student)) {
+                    const badge = item.querySelector('.badge');
+                    badge.textContent = 'Graded';
+                    badge.className = 'badge bg-success';
+                    
+                    const gradeInfo = document.createElement('i');
+                    gradeInfo.className = 'fas fa-star ms-3 me-2';
+                    gradeInfo.innerHTML = `Grade: ${grade}`;
+                    item.querySelector('.text-muted').appendChild(gradeInfo);
+                }
+            });
+        }
+
+        // Announcement Management
+        function createAnnouncement() {
+            const title = document.getElementById('announcementTitle').value;
+            const course = document.getElementById('announcementCourse').value;
+            const content = document.getElementById('announcementContent').value;
+            const priority = document.getElementById('announcementPriority').value;
+            
+            if (!title || !course || !content) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            addAnnouncementToList(title, course, content, priority);
+            
+            // Reset form and close modal
+            document.getElementById('announcementForm').reset();
+            const modal = bootstrap.Modal.getInstance(document.getElementById('announcementModal'));
+            modal.hide();
+            
+            alert('Announcement sent successfully!');
+        }
+
+        function addAnnouncementToList(title, course, content, priority) {
+            const container = document.getElementById('announcementsList');
+            const courseText = course === 'all' ? 'All Courses' : course.toUpperCase();
+            const priorityColor = priority === 'urgent' ? 'danger' : priority === 'high' ? 'warning' : 'info';
+            
+            const announcement = document.createElement('div');
+            announcement.className = 'card mb-3';
+            announcement.innerHTML = `
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-0">${title}</h6>
+                        <small class="text-muted">${courseText} • Posted just now</small>
+                    </div>
+                    <span class="badge bg-${priorityColor}">Active</span>
+                </div>
+                <div class="card-body">
+                    <p class="mb-0">${content}</p>
+                </div>
+            `;
+            
+            container.insertBefore(announcement, container.firstChild);
+        }
+
+        // Filter submissions
+        document.getElementById('filterCourse').addEventListener('change', filterSubmissions);
+        document.getElementById('filterStatus').addEventListener('change', filterSubmissions);
+
+        function filterSubmissions() {
+            const courseFilter = document.getElementById('filterCourse').value;
+            const statusFilter = document.getElementById('filterStatus').value;
+            
+            // In a real application, this would filter the submissions
+            console.log('Filtering by course:', courseFilter, 'and status:', statusFilter);
+        }
+
+        // Initialize tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            tooltips.forEach(tooltip => new bootstrap.Tooltip(tooltip));
+        });
+    </script>
+</body>
+</html>

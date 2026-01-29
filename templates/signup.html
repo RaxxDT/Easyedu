@@ -1,0 +1,147 @@
+{% extends "core_base.html" %}
+
+{% load static %}
+
+{% block title %}Signup - EasyEdu{% endblock title %}
+
+{% block main %}
+      <div class="container-fluid">
+        <div class="row min-vh-100">
+            <!-- Left Side - Form -->
+            <div class="col-lg-6 d-flex align-items-center justify-content-center">
+                <div class="auth-form">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-book-open text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h2 class="fw-bold">Join EasyEdu</h2>
+                        <p class="text-muted">Create your account to start learning</p>
+                    </div>
+
+                    <form id="signupForm" method='post' action='{% url "signup" %}' class="needs-validation">
+                        {% csrf_token %}
+                        
+                        {{ form.non_field_errors }}
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <ul>
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                    <li>{{ field.label }}: {{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.first_name.label_tag }}
+                                {{ form.first_name }}
+                                {{ form.first_name.errors }}
+                                
+                            </div>
+                            <div class="col-md-6 mb-3">
+                               {{ form.last_name.label_tag }}
+                                {{ form.last_name }}
+                                {{ form.last_name.errors }}
+                            </div>
+                        </div>
+
+                         <div class="mb-3">
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                            {{ form.username.errors }}
+                            <div class="form-text">
+                                {{ form.username.help_text }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                            {{ form.email.errors }}
+                            <div class="form-text">
+                                {{ form.email.help_text }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                             {{ form.password1.label_tag }}
+                            {{ form.password1 }}
+                            {{ form.password1.errors }}
+                            <div class="form-text">
+                                {{ form.password1.help_text }}
+                            </div>
+                            
+                        </div>
+
+                        <div class="mb-3">
+                             {{ form.password2.label_tag }}
+                            {{ form.password2 }}
+                            {{ form.password2.errors }}
+                            <div class="form-text">
+                                {{ form.password2.help_text }}
+                            </div>
+                            
+                        </div>
+                         <div class="mb-3">
+                            {{ form.terms_of_service }}
+                            {{ form.terms_of_service.help_text }}
+                            {{ form.terms_of_service.errors }}
+                         </div>
+                        <div class="mb-3">
+                            {{ form.role.label_tag }}
+                            {{ form.role}}
+                            {{ form.role.help_text }}
+                            {{ form.role.errors }}
+                           
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mb-3" id="signupBtn">
+                            <span class="btn-text">Create Account</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                        </button>
+
+                        <hr class="my-4">
+
+                        <div class="text-center">
+                            <p class="mb-0">Already have an account? 
+                                <a href="{% url 'login' %}" class="text-decoration-none fw-bold">Sign in</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Side - Image/Branding -->
+            <div class="col-lg-6 auth-bg d-none d-lg-block">
+                <div class="auth-bg-content">
+                    <h3 class="text-white fw-bold mb-3">Start your learning adventure</h3>
+                    <p class="text-white-50">
+                        Join thousands of learners and educators in our vibrant learning community.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast for notifications -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="authToast" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                <strong class="me-auto">EasyEdu</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
+                <!-- Message will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+{% endblock main %}
+
+{% block script %}
+    <script src="static/js/auth.js"></script>
+{% endblock script %}

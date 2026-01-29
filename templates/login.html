@@ -1,0 +1,97 @@
+{% extends "core_base.html" %}
+{% load static %}
+{% block title %}Login - EasyEdu{% endblock title %}
+
+
+{% block main %}
+    <div class="container-fluid">
+        <div class="row min-vh-100">
+            <!-- Left Side - Form -->
+            <div class="col-lg-6 d-flex align-items-center justify-content-center">
+                <div class="auth-form">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-book-open text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h2 class="fw-bold">Welcome back</h2>
+                        <p class="text-muted">Sign in to your EasyEdu account</p>
+                    </div>
+
+                    
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <ul>
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                    <li>{{ field.label }}: {{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                    <form id="loginForm" method='post' action="{% url 'login' %}" class="needs-validation">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                            {{ form.username.errors }}
+                          
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.password.label_tag }}
+                            {{ form.password }}
+                            {{ form.password.errors }}
+                            <div class="form-text">
+                                {{ form.password.help_text }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="remember">
+                            <label class="form-check-label" for="remember">
+                                Remember me
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mb-3" id="loginBtn">
+                            <span class="btn-text">Sign In</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                        </button>
+
+                        <div class="text-center">
+                            <a href="#" class="text-decoration-none">Forgot your password?</a>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="text-center">
+                            <p class="mb-0">Don't have an account? 
+                                <a href="{% url 'signup' %}" class="text-decoration-none fw-bold">Sign up</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Side - Image/Branding -->
+            <div class="col-lg-6 auth-bg d-none d-lg-block">
+                <div class="auth-bg-content">
+                    <h3 class="text-white fw-bold mb-3">Continue your learning journey</h3>
+                    <p class="text-white-50">
+                        Access your courses, assignments, and connect with your learning community.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+{% endblock main %}
+
+{% block script %}
+    <script src="static/js/auth.js"></script>
+{% endblock script %}

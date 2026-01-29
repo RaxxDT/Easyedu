@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyEdu - Edit Profile</title> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/profile_styles.css' %}">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <!-- Page Header -->
+                <div class="mb-4">
+                    <a href="{% url 'profile' %}" class="btn btn-outline-secondary mb-2">
+                        ← Back to Profile
+                    </a>
+                    <h2>Edit Profile</h2>
+                    <p class="text-muted">Update your profile information below.</p>
+                </div>
+
+                <!-- Profile Form Card -->
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        {% if u_form.errors or p_form.errors %}
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    {% for field in u_form %}
+                                        {% for error in field.errors %}
+                                            <li>{{ field.label }}: {{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+
+                                    {% for field in p_form %}
+                                        {% for error in field.errors %}
+                                            <li>{{ field.label }}: {{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+
+                                    {% for error in u_form.non_field_errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                    {% for error in p_form.non_field_errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <!-- User Fields -->
+                            <h5 class="mb-3">Account Information</h5>
+                            <div class="mb-3">
+                                {{ u_form.first_name.label_tag }}
+                                {{ u_form.first_name}}
+                            </div>
+                            <div class="mb-3">
+                                {{ u_form.last_name.label_tag }}
+                                {{ u_form.last_name}}
+                            </div>
+                            <div class="mb-3">
+                                {{ u_form.username.label_tag }}
+                                {{ u_form.username}}
+                            </div>
+                            <div class="mb-3">
+                                {{ u_form.email.label_tag }}
+                                {{ u_form.email}}
+                            </div>
+
+                            <!-- Profile Fields -->
+                            <h5 class="mt-4 mb-3">Profile Details</h5>
+                            <div class="mb-3">
+                                {{ p_form.bio.label_tag }}
+                                {{ p_form.bio }}
+                            </div>
+                            <div class="mb-3">
+                                {{ p_form.avatar.label_tag }}
+                                {{ p_form.avatar }}
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/profile_script.js' %}"></script>
+</body>
+</html>

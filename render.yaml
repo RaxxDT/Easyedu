@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: easyedu
+    env: python
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: gunicorn easyedu.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: easyedu.settings
+      - key: 'django-insecure-jm%%m2k%75%$0$^olfiot@-*i4tg_mwg9b%ru*(=)!m+r1=r($'
+        value: your-secret-key
+      - key: DEBUG
+        value: False
