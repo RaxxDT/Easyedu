@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-v4#6(^rb-tw0a-geb$73h7%fb8eqodf&d(xm-^e72x&%2y(6t)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['easyedu-8kfg.onrender.com', 'localhost', '127.0.0.1']
 
 AUTH_USER_MODEL = 'accounts.User'
 
